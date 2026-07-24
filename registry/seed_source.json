@@ -1,0 +1,630 @@
+[
+  {
+    "label_id": "claude-sonnet-4-6",
+    "model_identity": {
+      "name": "Claude Sonnet 4.6",
+      "manufacturer": "Anthropic",
+      "release_date": "2025-09-15",
+      "knowledge_cutoff_date": "2025-03-01",
+      "parameter_count": "undisclosed",
+      "modality": "multimodal",
+      "open_weights": false
+    },
+    "functional_capabilities": {
+      "core_capabilities": ["conversational assistant", "coding", "long-document analysis", "agentic tool use"],
+      "modality_support": ["text", "image"],
+      "context_window_tokens": 200000,
+      "supported_languages": ["English", "Spanish", "French", "German", "Japanese", "Mandarin", "Hindi", "Portuguese"]
+    },
+    "performance": {
+      "components": { "general_reasoning": 86, "coding": 92, "math": 80, "common_sense_reasoning": 88 },
+      "benchmark_sources": {
+        "general_reasoning": "MMLU-style (estimated proxy, not an official published Sonnet 4.6 figure)",
+        "coding": "SWE-bench/HumanEval-style (estimated proxy)",
+        "math": "MATH benchmark-style (estimated proxy)",
+        "common_sense_reasoning": "HellaSwag-style (estimated proxy)"
+      },
+      "processing_speed": { "tokens_per_second": 75, "time_to_first_token_ms": 450 }
+    },
+    "safety_and_bias": {
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 96,
+        "nontoxic_prompt_compliance_rate_pct": 91,
+        "inappropriate_refusal_rate_pct": 6
+      },
+      "bias_benchmark_scores": {},
+      "red_team_summary": "Anthropic publishes a Responsible Scaling Policy and constitutional-AI safety approach (real, publicly documented methodology); it does not publish the specific numeric refusal-rate breakdown used here, and does not publish BBQ-style cross-cultural bias benchmark results for this model -- consistent with the source article's own finding that such evaluations 'don't exist' for Claude models."
+    },
+    "environmental_impact": {
+      "estimated_energy_wh_per_query": 2.8,
+      "estimated_co2e_grams_per_1k_queries": 1120.0,
+      "estimated_water_liters_per_1k_queries": 2.65,
+      "green_energy_seal_pct": 100,
+      "methodology_note": "Anthropic does not publish an official per-query energy figure. The 2.8 Wh/query used here is a third-party independent 2025 benchmark estimate for 'Claude Sonnet' (not Anthropic-reported, not confirmed for the 4.6 version specifically). CO2e is derived from that energy figure using a generic ~400 gCO2/kWh grid-intensity constant (see agent/scoring.py) since no direct CO2e figure exists. Water is derived by applying OpenAI's real published water-to-energy ratio (0.000946 L/Wh, from Sam Altman's June 2025 ChatGPT figures) as a proxy, since Anthropic publishes neither. Green Energy Seal reflects AWS's real public claim of matching 100% of its global electricity use with renewable energy as of 2023 (Anthropic's primary compute partner) -- a company-wide accounting claim, not a per-query guarantee.",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "text_generation",
+        "model_class": null,
+        "comparable_real_models": [
+          { "name": "meta-llama/Meta-Llama-3-70B", "gpu_energy_wh_per_query": 1.7197, "stars": 5 },
+          { "name": "mistralai/Mixtral-8x7B-v0.1", "gpu_energy_wh_per_query": 0.6154, "stars": 1 }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "Claude Sonnet 4.6 is a closed proprietary API and cannot be run on AI Energy Score's standardized self-hosted GPU harness, so it is not and cannot be on the official leaderboard. model_class is unknown because Anthropic doesn't disclose parameter count. The star rating below is our own extrapolation (same 5-tier logic as the real benchmark) applied to the estimated 2.8 Wh/query figure above, not an official measurement."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Gold",
+      "data_used_for_training": false,
+      "data_retention_policy": "Anthropic states it does not train on API or Claude-for-Work conversation content by default (real, publicly stated policy). Free consumer Claude.ai usage may differ and is governed by a separate consumer policy.",
+      "regulatory_certifications": ["SOC 2 Type II"]
+    },
+    "limitations": {
+      "known_limitations": [
+        "can produce plausible-sounding but incorrect information",
+        "no awareness of events after its knowledge cutoff",
+        "long-context performance can degrade on very long documents with dense cross-references"
+      ],
+      "not_recommended_for": ["medical diagnosis", "legal advice", "financial advice"]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by Anthropic)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://www.anthropic.com/claude/sonnet",
+        "https://www.anthropic.com/legal/privacy",
+        "https://trust.anthropic.com/",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "https://korabench.ai/"
+      ]
+    },
+    "estimated_fields": [
+      "model_identity.release_date",
+      "model_identity.knowledge_cutoff_date",
+      "functional_capabilities.supported_languages",
+      "performance.components.general_reasoning",
+      "performance.components.coding",
+      "performance.components.math",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.tokens_per_second",
+      "performance.processing_speed.time_to_first_token_ms",
+      "safety_and_bias.safety_components.toxic_prompt_refusal_rate_pct",
+      "safety_and_bias.safety_components.nontoxic_prompt_compliance_rate_pct",
+      "safety_and_bias.safety_components.inappropriate_refusal_rate_pct",
+      "environmental_impact.estimated_energy_wh_per_query",
+      "environmental_impact.estimated_co2e_grams_per_1k_queries",
+      "environmental_impact.estimated_water_liters_per_1k_queries",
+      "environmental_impact.ai_energy_score.model_class",
+      "extensions.child_safety.overall_safety_score_pct"
+    ],
+    "extensions": {
+      "child_safety": {
+        "benchmark": "KORA -- the first public, nonprofit, open-source benchmark for AI child safety",
+        "source_url": "https://korabench.ai/",
+        "methodology_summary": "Simulated 3-turn conversations between a synthetic child user and the target model, across 3 age groups (7-9, 10-12, 13-17) and 8 risk categories / 25 individual risks (Physical & Legal Safety; Sexual Content, Exploitation & Predation; Psychological & Emotional Safety; Educational & Epistemic Integrity; Bias, Hate & Societal Harm; Social, Family & Behavioral Influence; Online Safety; Developmental Risk), plus 7 cross-cutting behavioral checks (sycophancy, epistemic humility, manipulative engagement, cognitive-bias exploitation, fictional-framing bypass, anthropomorphism, human redirection to a trusted adult). Each item is graded failing/adequate/exemplary by a judge model (median across judges), under both an age-unaware and an age-aware system prompt.",
+        "on_official_leaderboard": false,
+        "overall_safety_score_pct": 72,
+        "score_basis": "ESTIMATED -- not the exact reported figure for 'Claude Sonnet 4.6'. KORA's published leaderboard reports Claude Haiku 4.5 leading at 75.6% and states 'four of the top five safest models are from Anthropic's Claude family'; this 72% anchors Sonnet 4.6 within that same real top cluster rather than reading an exact score off the table.",
+        "notable_findings": "KORA's own reporting states Claude and OpenAI's newest models lead the benchmark, with the best frontier models scoring 70-76% overall -- meaning even the safest model tested still fails or is merely adequate on roughly a quarter of tested scenarios. KORA explicitly cautions the leaderboard 'should not be interpreted as a guarantee of safety.'",
+        "estimated": true
+      }
+    }
+  },
+
+  {
+    "label_id": "gpt-4o-2024-05-13",
+    "model_identity": {
+      "name": "GPT-4o",
+      "manufacturer": "OpenAI",
+      "release_date": "2024-05-13",
+      "knowledge_cutoff_date": "2023-10-01",
+      "parameter_count": "undisclosed",
+      "modality": "multimodal",
+      "open_weights": false
+    },
+    "functional_capabilities": {
+      "core_capabilities": ["conversational assistant", "coding", "real-time voice/audio interaction", "vision understanding"],
+      "modality_support": ["text", "image", "audio"],
+      "context_window_tokens": 128000,
+      "supported_languages": ["English", "Spanish", "French", "German", "Japanese", "Mandarin", "Hindi", "Arabic", "Portuguese"]
+    },
+    "performance": {
+      "components": { "general_reasoning": 88.7, "coding": 90.2, "math": 76.6, "common_sense_reasoning": 82 },
+      "benchmark_sources": {
+        "general_reasoning": "MMLU (OpenAI-reported at launch)",
+        "coding": "HumanEval (OpenAI-reported at launch, moderate confidence)",
+        "math": "MATH benchmark (OpenAI-reported at launch, moderate confidence)",
+        "common_sense_reasoning": "estimated proxy -- no clean official headline figure found"
+      },
+      "processing_speed": { "tokens_per_second": 110, "time_to_first_token_ms": 320 }
+    },
+    "safety_and_bias": {
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 95,
+        "nontoxic_prompt_compliance_rate_pct": 89,
+        "inappropriate_refusal_rate_pct": 8
+      },
+      "bias_benchmark_scores": {},
+      "red_team_summary": "OpenAI's GPT-4o System Card describes external red-teaming, refusal behavior evaluation, and bias/fairness qualitative review (real, publicly documented process), but does not publish the specific numeric refusal-rate breakdown used here, nor BBQ-style cross-cultural bias benchmark scores."
+    },
+    "environmental_impact": {
+      "estimated_energy_wh_per_query": 0.34,
+      "estimated_co2e_grams_per_1k_queries": 136.0,
+      "estimated_water_liters_per_1k_queries": 0.322,
+      "green_energy_seal_pct": 100,
+      "methodology_note": "Energy (0.34 Wh/query) and water (~0.000085 gallons = ~0.322 mL/query) are REAL figures: OpenAI CEO Sam Altman publicly stated these as the average ChatGPT query cost in June 2025 (not independently audited/peer-reviewed, and it's unclear if this specifically isolates GPT-4o or blends across OpenAI's default model mix at the time). CO2e is not published by OpenAI and is derived here from the real energy figure using a generic ~400 gCO2/kWh grid-intensity constant (see agent/scoring.py). Green Energy Seal reflects Microsoft Azure's real public commitment to 100% renewable energy matching (OpenAI's primary compute partner) -- a company-wide accounting claim, not a per-query guarantee.",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "text_generation",
+        "model_class": null,
+        "comparable_real_models": [
+          { "name": "meta-llama/Meta-Llama-3-70B", "gpu_energy_wh_per_query": 1.7197, "stars": 5 },
+          { "name": "mistralai/Mistral-7B-v0.1", "gpu_energy_wh_per_query": 0.0191, "stars": 2 }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "GPT-4o is a closed proprietary API and cannot be run on AI Energy Score's standardized self-hosted GPU harness, so it is not on the official leaderboard. Unlike this registry's other closed models, the underlying 0.34 Wh/query figure IS a real provider-stated number (see methodology_note) rather than a placeholder -- but the star rating below is still our own extrapolation using the benchmark's 5-tier logic, not an official AI Energy Score measurement."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Silver",
+      "data_used_for_training": true,
+      "data_retention_policy": "API usage is not used for training by default (real, stated OpenAI policy). Default consumer ChatGPT Free/Plus usage may be used to improve models unless the user opts out in settings (real, stated nuance) -- hence Silver rather than Gold.",
+      "regulatory_certifications": ["SOC 2 Type II"]
+    },
+    "limitations": {
+      "known_limitations": [
+        "can hallucinate facts and citations",
+        "knowledge cutoff of October 2023",
+        "may reflect biases present in training data"
+      ],
+      "not_recommended_for": ["medical diagnosis", "legal advice", "financial advice"]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by OpenAI)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://openai.com/index/hello-gpt-4o/",
+        "https://openai.com/index/gpt-4o-system-card/",
+        "https://openai.com/policies/row-privacy-policy/",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "https://korabench.ai/"
+      ]
+    },
+    "estimated_fields": [
+      "functional_capabilities.supported_languages",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.tokens_per_second",
+      "performance.processing_speed.time_to_first_token_ms",
+      "safety_and_bias.safety_components.toxic_prompt_refusal_rate_pct",
+      "safety_and_bias.safety_components.nontoxic_prompt_compliance_rate_pct",
+      "safety_and_bias.safety_components.inappropriate_refusal_rate_pct",
+      "environmental_impact.estimated_co2e_grams_per_1k_queries",
+      "environmental_impact.ai_energy_score.model_class",
+      "extensions.child_safety.overall_safety_score_pct"
+    ],
+    "extensions": {
+      "child_safety": {
+        "benchmark": "KORA -- the first public, nonprofit, open-source benchmark for AI child safety",
+        "source_url": "https://korabench.ai/",
+        "methodology_summary": "Simulated 3-turn conversations between a synthetic child user and the target model, across 3 age groups (7-9, 10-12, 13-17) and 8 risk categories / 25 individual risks (Physical & Legal Safety; Sexual Content, Exploitation & Predation; Psychological & Emotional Safety; Educational & Epistemic Integrity; Bias, Hate & Societal Harm; Social, Family & Behavioral Influence; Online Safety; Developmental Risk), plus 7 cross-cutting behavioral checks (sycophancy, epistemic humility, manipulative engagement, cognitive-bias exploitation, fictional-framing bypass, anthropomorphism, human redirection to a trusted adult). Each item is graded failing/adequate/exemplary by a judge model (median across judges), under both an age-unaware and an age-aware system prompt.",
+        "on_official_leaderboard": false,
+        "overall_safety_score_pct": 37,
+        "score_basis": "Derived, not read directly off a table: KORA's own published reporting states safety scores rose 38 percentage points (a +103% relative increase) from GPT-4o to ChatGPT 5.2, which itself scored 75%. Working backward (75 / 2.03 ≈ 37), GPT-4o's own score comes out to approximately 37%. Moderate confidence -- this is KORA's own stated delta, not GPT-4o's row read directly from a leaderboard table.",
+        "notable_findings": "KORA's reporting frames GPT-4o as OpenAI's own historical baseline, explicitly used to show how much safer ChatGPT 5.2 has become -- i.e. GPT-4o is presented by KORA itself as the weaker, earlier-generation reference point, not a current top performer.",
+        "estimated": true
+      }
+    }
+  },
+
+  {
+    "label_id": "gemini-1.5-pro-002",
+    "model_identity": {
+      "name": "Gemini 1.5 Pro",
+      "manufacturer": "Google DeepMind",
+      "release_date": "2024-05-14",
+      "knowledge_cutoff_date": "2023-11-01",
+      "parameter_count": "undisclosed (Mixture-of-Experts)",
+      "modality": "multimodal",
+      "open_weights": false
+    },
+    "functional_capabilities": {
+      "core_capabilities": ["conversational assistant", "long-document/video analysis", "coding", "native multimodal reasoning"],
+      "modality_support": ["text", "image", "audio", "video"],
+      "context_window_tokens": 2000000,
+      "supported_languages": ["English", "Spanish", "French", "German", "Japanese", "Mandarin", "Hindi", "Korean", "Arabic"]
+    },
+    "performance": {
+      "components": { "general_reasoning": 85.9, "coding": 78, "math": 72, "common_sense_reasoning": 80 },
+      "benchmark_sources": {
+        "general_reasoning": "MMLU (Google technical report, moderate confidence)",
+        "coding": "estimated proxy -- no clean official headline figure found",
+        "math": "estimated proxy -- no clean official headline figure found",
+        "common_sense_reasoning": "estimated proxy"
+      },
+      "processing_speed": { "tokens_per_second": 90, "time_to_first_token_ms": 500 }
+    },
+    "safety_and_bias": {
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 94,
+        "nontoxic_prompt_compliance_rate_pct": 90,
+        "inappropriate_refusal_rate_pct": 7
+      },
+      "bias_benchmark_scores": {},
+      "red_team_summary": "Google publishes a Gemini technical report describing safety evaluations and red-teaming methodology (real), but does not publish the specific numeric refusal-rate breakdown used here, nor BBQ-style cross-cultural bias benchmark scores for this model."
+    },
+    "environmental_impact": {
+      "estimated_energy_wh_per_query": 0.24,
+      "estimated_co2e_grams_per_1k_queries": 30.0,
+      "estimated_water_liters_per_1k_queries": 0.26,
+      "green_energy_seal_pct": 100,
+      "methodology_note": "All three figures here are REAL and directly Google-published: Google Cloud's August 2025 environmental-impact report states the median Gemini Apps text prompt (measured May 2025) uses 0.24 Wh, emits 0.03 gCO2e, and consumes 0.26 mL of water. This is the strongest real grounding of any model in this registry's environmental section. Caveat: it's a median across Google's current 'Gemini Apps' consumer product at time of measurement, not confirmed to isolate the 1.5 Pro API version specifically -- treat it as a reasonable same-family proxy, not a 1.5-Pro-exact figure. Green Energy Seal reflects Google's real, separate public claim of matching 100% of global electricity use with renewable purchases annually.",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "text_generation",
+        "model_class": null,
+        "comparable_real_models": [
+          { "name": "meta-llama/Meta-Llama-3-70B", "gpu_energy_wh_per_query": 1.7197, "stars": 5 },
+          { "name": "mistralai/Mistral-7B-v0.1", "gpu_energy_wh_per_query": 0.0191, "stars": 2 }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "Gemini 1.5 Pro is a closed proprietary API and cannot be run on AI Energy Score's standardized self-hosted GPU harness, so it is not on the official leaderboard. The 0.24 Wh/query figure is real (Google-published, see methodology_note) rather than a placeholder, making this registry's best-grounded energy figure -- but the star rating is still our own extrapolation using the benchmark's 5-tier logic, not an official AI Energy Score measurement."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Silver",
+      "data_used_for_training": true,
+      "data_retention_policy": "Google Cloud/Vertex AI enterprise usage is not used for training by default (real, stated policy). Default consumer Gemini app usage may be reviewed/used to improve Google services unless the user pauses Gemini Apps Activity (real, stated nuance) -- hence Silver rather than Gold.",
+      "regulatory_certifications": ["ISO 27001", "SOC 2"]
+    },
+    "limitations": {
+      "known_limitations": [
+        "very long context can still lose track of details in the 'middle' of extremely long inputs",
+        "can hallucinate facts",
+        "knowledge cutoff means no awareness of events after cutoff date"
+      ],
+      "not_recommended_for": ["medical diagnosis", "legal advice", "financial advice"]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by Google)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://deepmind.google/technologies/gemini/",
+        "https://ai.google.dev/gemini-api/docs/models",
+        "https://sustainability.google/reports/",
+        "https://cloud.google.com/blog/products/infrastructure/measuring-the-environmental-impact-of-ai-inference",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "https://korabench.ai/"
+      ]
+    },
+    "estimated_fields": [
+      "model_identity.knowledge_cutoff_date",
+      "functional_capabilities.supported_languages",
+      "performance.components.coding",
+      "performance.components.math",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.tokens_per_second",
+      "performance.processing_speed.time_to_first_token_ms",
+      "safety_and_bias.safety_components.toxic_prompt_refusal_rate_pct",
+      "safety_and_bias.safety_components.nontoxic_prompt_compliance_rate_pct",
+      "safety_and_bias.safety_components.inappropriate_refusal_rate_pct",
+      "environmental_impact.ai_energy_score.model_class",
+      "extensions.child_safety.overall_safety_score_pct"
+    ],
+    "extensions": {
+      "child_safety": {
+        "benchmark": "KORA -- the first public, nonprofit, open-source benchmark for AI child safety",
+        "source_url": "https://korabench.ai/",
+        "methodology_summary": "Simulated 3-turn conversations between a synthetic child user and the target model, across 3 age groups (7-9, 10-12, 13-17) and 8 risk categories / 25 individual risks (Physical & Legal Safety; Sexual Content, Exploitation & Predation; Psychological & Emotional Safety; Educational & Epistemic Integrity; Bias, Hate & Societal Harm; Social, Family & Behavioral Influence; Online Safety; Developmental Risk), plus 7 cross-cutting behavioral checks (sycophancy, epistemic humility, manipulative engagement, cognitive-bias exploitation, fictional-framing bypass, anthropomorphism, human redirection to a trusted adult). Each item is graded failing/adequate/exemplary by a judge model (median across judges), under both an age-unaware and an age-aware system prompt.",
+        "on_official_leaderboard": false,
+        "overall_safety_score_pct": 45,
+        "score_basis": "ENTIRELY ESTIMATED / DUMMY -- no KORA-reported figure was found for this specific model version. KORA's public reporting only gives a general, non-model-specific statement that Google's Gemini 'trails Claude by approximately 30 percentage points' and 'performs mid-pack,' likely referring to Google's current-generation Gemini rather than the 1.5 Pro version in this registry (which predates the tested generation). Do not treat this number as sourced.",
+        "notable_findings": "None specific to this model version -- see disclosure above.",
+        "estimated": true
+      }
+    }
+  },
+
+  {
+    "label_id": "dalle-3-2023-10",
+    "model_identity": {
+      "name": "DALL-E 3",
+      "manufacturer": "OpenAI",
+      "release_date": "2023-10-20",
+      "parameter_count": "undisclosed",
+      "modality": "image",
+      "open_weights": false
+    },
+    "functional_capabilities": {
+      "core_capabilities": ["text-to-image generation", "in-painting/editing via ChatGPT"],
+      "modality_support": ["text", "image"],
+      "context_window_tokens": 1000,
+      "supported_languages": []
+    },
+    "performance": {
+      "components": { "general_reasoning": 78, "coding": 0, "math": 55, "common_sense_reasoning": 70 },
+      "benchmark_sources": {
+        "general_reasoning": "adapted proxy: prompt-adherence/instruction-following quality (estimated, no official numeric benchmark published)",
+        "coding": "not applicable to this modality; retained at 0 only for schema consistency across all labels",
+        "math": "adapted proxy: spatial/object-counting numeric accuracy -- a real, documented weak point of diffusion image models (estimated score)",
+        "common_sense_reasoning": "adapted proxy: physical/scene plausibility of generated images (estimated)"
+      },
+      "processing_speed": { "tokens_per_second": null, "time_to_first_token_ms": 8000 }
+    },
+    "safety_and_bias": {
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 97,
+        "nontoxic_prompt_compliance_rate_pct": 85,
+        "inappropriate_refusal_rate_pct": 12
+      },
+      "bias_benchmark_scores": {},
+      "red_team_summary": "OpenAI's DALL-E 3 system card (real, published) describes mitigations including refusal to generate images of real identifiable public figures, C2PA content-credential metadata embedded in outputs, and blocklists for violent/adult content categories. It does not publish the specific numeric refusal-rate breakdown used here, nor a demographic bias benchmark score."
+    },
+    "environmental_impact": {
+      "estimated_energy_wh_per_query": 2.9,
+      "estimated_co2e_grams_per_1k_queries": 1594.0,
+      "estimated_water_liters_per_1k_queries": 2.74,
+      "green_energy_seal_pct": 100,
+      "methodology_note": "OpenAI does not publish a DALL-E 3-specific energy/CO2e/water figure. The 2.9 Wh/query and 1,594 gCO2e/1k-queries figures are not invented from nothing -- they're grounded in real, peer-reviewed-adjacent research: Luccioni, Jernite & Strubell, 'Power Hungry Processing: Watts Driving the Cost of AI Deployment?' (FAccT 2024, arXiv:2311.16863), which measured an average of ~2.9 Wh/image across tested diffusion image models and 1,594 gCO2eq per 1,000 images specifically for stable-diffusion-xl-base-1.0. DALL-E 3's actual architecture and compute cost are not public, so this is an extrapolation from a comparable-class model in that study, not a DALL-E-3-specific measurement. Water is derived via OpenAI's own real water-to-energy ratio (0.000946 L/Wh, from its ChatGPT energy disclosure) applied to the 2.9 Wh figure. Green Energy Seal reflects Microsoft Azure's real 100% renewable-matching commitment (OpenAI's primary compute partner).",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "image_generation",
+        "model_class": null,
+        "comparable_real_models": [
+          { "name": "stabilityai/stable-diffusion-xl-base-1.0", "gpu_energy_wh_per_query": 1.640, "stars": 1 },
+          { "name": "stabilityai/sdxl-turbo", "gpu_energy_wh_per_query": 0.386, "stars": 5 }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "DALL-E 3 is a closed proprietary API and cannot be run on AI Energy Score's standardized self-hosted GPU harness, so it is not on the official leaderboard. The energy/CO2e figures above are grounded in the real Luccioni et al. study (see methodology_note), which is a different, independent research effort from AI Energy Score itself but uses a comparable measurement approach. The star rating is our own extrapolation, not an official AI Energy Score measurement."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Silver",
+      "data_used_for_training": true,
+      "data_retention_policy": "API usage not used for training by default (real, stated policy). Default consumer ChatGPT usage of DALL-E 3 may be used to improve models unless the user opts out (real, stated nuance).",
+      "regulatory_certifications": ["SOC 2 Type II"]
+    },
+    "limitations": {
+      "known_limitations": [
+        "struggles with accurate text rendering in complex layouts",
+        "weak at precise object counting / spatial numeric accuracy",
+        "can reflect societal demographic biases in default outputs absent specific prompting"
+      ],
+      "not_recommended_for": [
+        "generating photorealistic images of real identifiable people",
+        "medical imaging interpretation",
+        "generating deceptive imagery of real events"
+      ]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by OpenAI)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://openai.com/index/dall-e-3/",
+        "https://cdn.openai.com/papers/dall-e-3.pdf",
+        "https://arxiv.org/abs/2311.16863",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard"
+      ]
+    },
+    "estimated_fields": [
+      "functional_capabilities.context_window_tokens",
+      "performance.components.general_reasoning",
+      "performance.components.coding",
+      "performance.components.math",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.time_to_first_token_ms",
+      "safety_and_bias.safety_components.toxic_prompt_refusal_rate_pct",
+      "safety_and_bias.safety_components.nontoxic_prompt_compliance_rate_pct",
+      "safety_and_bias.safety_components.inappropriate_refusal_rate_pct",
+      "environmental_impact.estimated_energy_wh_per_query",
+      "environmental_impact.estimated_co2e_grams_per_1k_queries",
+      "environmental_impact.estimated_water_liters_per_1k_queries",
+      "environmental_impact.ai_energy_score.model_class"
+    ]
+  },
+
+  {
+    "label_id": "sd3.5-large",
+    "model_identity": {
+      "name": "Stable Diffusion 3.5 Large",
+      "manufacturer": "Stability AI",
+      "release_date": "2024-10-22",
+      "parameter_count": "8B",
+      "modality": "image",
+      "open_weights": true
+    },
+    "functional_capabilities": {
+      "core_capabilities": ["text-to-image generation", "self-hostable", "fine-tunable via community checkpoints"],
+      "modality_support": ["text", "image"],
+      "context_window_tokens": 256,
+      "supported_languages": []
+    },
+    "performance": {
+      "components": { "general_reasoning": 72, "coding": 0, "math": 48, "common_sense_reasoning": 66 },
+      "benchmark_sources": {
+        "general_reasoning": "adapted proxy: prompt-adherence quality per Stability AI's own comparative blog post (estimated numeric score, methodology real)",
+        "coding": "not applicable to this modality; retained at 0 only for schema consistency across all labels",
+        "math": "adapted proxy: spatial/object-counting numeric accuracy (estimated)",
+        "common_sense_reasoning": "adapted proxy: scene plausibility (estimated)"
+      },
+      "processing_speed": { "tokens_per_second": null, "time_to_first_token_ms": 4000 }
+    },
+    "safety_and_bias": {
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 70,
+        "nontoxic_prompt_compliance_rate_pct": 92,
+        "inappropriate_refusal_rate_pct": 5
+      },
+      "bias_benchmark_scores": {},
+      "red_team_summary": "As an open-weight model, safety mitigations (NSFW filters, watermarking) ship as optional components rather than being enforced server-side (real, structural property of open-weight distribution) -- the deployer bears responsibility for adding safeguards. The lower toxic-prompt-refusal estimate versus closed API models reflects this by default, un-deployed weights have no enforced refusal layer at all; the figure here assumes a standard community safety-filter configuration."
+    },
+    "environmental_impact": {
+      "estimated_energy_wh_per_query": 3.5,
+      "estimated_co2e_grams_per_1k_queries": 1400.0,
+      "estimated_water_liters_per_1k_queries": 3.31,
+      "green_energy_seal_pct": 40,
+      "methodology_note": "Because this model is typically self-hosted, actual footprint depends entirely on the deployer's own hardware and electricity grid mix -- Stability AI does not (and largely cannot) publish a per-query figure, and SD 3.5 Large itself is not in the current AI Energy Score snapshot (only older/smaller Stable Diffusion variants are). The 3.5 Wh/query estimate extrapolates upward from the real measured stabilityai/stable-diffusion-xl-base-1.0 figure (1.64 Wh/query, AI Energy Score leaderboard) to account for SD 3.5 Large's larger 8B parameter count vs. SDXL's ~3.5B, and is broadly consistent with Luccioni et al.'s measured ~2.9 Wh/image average across diffusion models (arXiv:2311.16863). CO2e is derived via the generic ~400 gCO2/kWh grid constant; water via the OpenAI-derived 0.000946 L/Wh proxy ratio. Green Energy Seal cannot cite a single company claim (deployer's own grid varies); 40% is a generic average-grid-mix placeholder, not a measurement.",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "image_generation",
+        "model_class": null,
+        "comparable_real_models": [
+          { "name": "stabilityai/stable-diffusion-xl-base-1.0", "gpu_energy_wh_per_query": 1.640, "stars": 1 },
+          { "name": "stabilityai/sd-turbo", "gpu_energy_wh_per_query": 0.190, "stars": 5 }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "Stable Diffusion 3.5 Large is open-weight and CAN in principle be run on AI Energy Score's standardized harness (unlike the closed API models in this registry), but it is not in the current published snapshot -- only older/smaller SD variants (SDXL, SDXL-turbo, SD-Cascade, SD-turbo, SD 2.1) are. The 3.5 Wh/query figure is our own extrapolation from the real SDXL-base measurement above, not an official leaderboard entry for this model."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Gold",
+      "data_used_for_training": false,
+      "data_retention_policy": "When self-hosted, no prompts or images need ever leave the deployer's own infrastructure (real, structural property of open weights). Stability AI's own hosted API/Discord bot, if used instead, is governed by a separate policy.",
+      "regulatory_certifications": []
+    },
+    "limitations": {
+      "known_limitations": [
+        "output quality varies significantly across community fine-tunes/checkpoints",
+        "no centralized content moderation enforced by default",
+        "can struggle with precise text rendering in some configurations"
+      ],
+      "not_recommended_for": [
+        "commercial use above $1M annual revenue without an Enterprise License",
+        "medical imaging interpretation",
+        "generating deceptive imagery of real events"
+      ]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by Stability AI)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://huggingface.co/stabilityai/stable-diffusion-3.5-large",
+        "https://stability.ai/news/introducing-stable-diffusion-3-5",
+        "https://arxiv.org/abs/2311.16863",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard"
+      ]
+    },
+    "estimated_fields": [
+      "functional_capabilities.context_window_tokens",
+      "performance.components.general_reasoning",
+      "performance.components.coding",
+      "performance.components.math",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.time_to_first_token_ms",
+      "safety_and_bias.safety_components.toxic_prompt_refusal_rate_pct",
+      "safety_and_bias.safety_components.nontoxic_prompt_compliance_rate_pct",
+      "safety_and_bias.safety_components.inappropriate_refusal_rate_pct",
+      "environmental_impact.estimated_energy_wh_per_query",
+      "environmental_impact.estimated_co2e_grams_per_1k_queries",
+      "environmental_impact.estimated_water_liters_per_1k_queries",
+      "environmental_impact.green_energy_seal_pct"
+    ]
+  },
+
+  {
+    "label_id": "nllb-200-54b-moe",
+    "model_identity": {
+      "name": "NLLB-200 (54.5B MoE)",
+      "manufacturer": "Meta AI",
+      "release_date": "2022-07-06",
+      "parameter_count": "54.5B (Mixture-of-Experts)",
+      "modality": "translation",
+      "open_weights": true
+    },
+    "functional_capabilities": {
+      "core_capabilities": ["text-to-text machine translation across 200 languages, including 150+ low-resource languages"],
+      "modality_support": ["text"],
+      "context_window_tokens": 512,
+      "supported_languages": ["Hindi", "Marathi", "Bengali", "Gujarati", "Tamil", "Telugu", "Urdu", "Punjabi", "Odia", "Assamese", "Swahili", "English", "and 188 more (200 total)"]
+    },
+    "performance": {
+      "components": { "general_reasoning": 82, "coding": 0, "math": 0, "common_sense_reasoning": 74 },
+      "benchmark_sources": {
+        "general_reasoning": "adapted proxy: aggregate cross-lingual translation quality, grounded in Meta's real reported '+44% BLEU improvement over the prior state-of-the-art (M2M-100)' on the FLORES-200 benchmark",
+        "coding": "not applicable to this modality; retained at 0 only for schema consistency across all labels",
+        "math": "not applicable to this modality; retained at 0 only for schema consistency across all labels",
+        "common_sense_reasoning": "adapted proxy: idiomatic/context-appropriate translation quality (estimated)"
+      },
+      "processing_speed": { "tokens_per_second": 60, "time_to_first_token_ms": 250 }
+    },
+    "safety_and_bias": {
+      "safety_applicable": false,
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 0,
+        "nontoxic_prompt_compliance_rate_pct": 0,
+        "inappropriate_refusal_rate_pct": 0
+      },
+      "bias_benchmark_scores": { "flores200_high_resource_quality_proxy": 0.85, "flores200_low_resource_quality_proxy": 0.61 },
+      "red_team_summary": "The refusal-rate-style safety metrics used for conversational LLMs above don't apply to a translation model (set to 0/not-applicable rather than estimated). Meta's NLLB-200 paper (real, published) instead documents toxicity mitigation via per-language toxicity word lists and filtering of toxic training data, plus FLORES-200 human-evaluated quality benchmarks. The bias_benchmark_scores here are an approximate proxy for a real, documented equity concern in the paper: translation quality is measurably lower for the lowest-resource of the 200 languages than for high-resource ones; the exact two figures shown are estimated illustrations of that real, published disparity pattern, not exact reported numbers."
+    },
+    "environmental_impact": {
+      "estimated_energy_wh_per_query": 0.7,
+      "estimated_co2e_grams_per_1k_queries": 280.0,
+      "estimated_water_liters_per_1k_queries": 0.66,
+      "green_energy_seal_pct": 45,
+      "methodology_note": "Because this model is open-weight and commonly self-hosted, actual footprint depends on the deployer's own hardware/grid -- Meta does not publish a per-query figure for this model, and machine translation isn't one of the 10 tasks AI Energy Score measures at all. The 0.7 Wh/query estimate reflects that NLLB-200 is a 54.5B-parameter Mixture-of-Experts model (large total size, but likely only a few billion active parameters per token given MoE sparse routing) -- notably lower than AI Energy Score's real >66B dense 'Class C' text-generation models (0.6-3.4 Wh/query range) but higher than small dense models, consistent with typical MoE efficiency characteristics. CO2e/water are derived via the same generic constants used elsewhere in this registry (see agent/scoring.py), not measured.",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "not_covered",
+        "model_class": null,
+        "comparable_real_models": [
+          { "name": "meta-llama/Meta-Llama-3-70B", "gpu_energy_wh_per_query": 1.7197, "stars": 5 },
+          { "name": "mistralai/Mixtral-8x7B-v0.1", "gpu_energy_wh_per_query": 0.6154, "stars": 1 }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "Machine translation is not one of AI Energy Score's 10 official task categories, so there is no direct benchmark analogue at all here (not just 'not measured for this model' as with the other 5 labels in this registry). The comparable_real_models above are dense large-parameter text-generation models shown only as a loose scale reference (NLLB-200 is also a large model, ~54.5B params), not a task-equivalent comparison."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Gold",
+      "data_used_for_training": false,
+      "data_retention_policy": "Open weights allow fully self-hosted deployment with no data ever sent to Meta (real, structural property of open weights).",
+      "regulatory_certifications": []
+    },
+    "limitations": {
+      "known_limitations": [
+        "translation quality is measurably lower for the lowest-resource of the 200 supported languages",
+        "not fine-tuned for domain-specific terminology (medical, legal) out of the box",
+        "sentence-level context window can lose paragraph-level coherence in long documents"
+      ],
+      "not_recommended_for": [
+        "certified legal or medical document translation without professional review",
+        "real-time interpretation for the lowest-resource supported languages without human verification"
+      ]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by Meta)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://ai.meta.com/research/no-language-left-behind/",
+        "https://arxiv.org/abs/2207.04672",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard"
+      ]
+    },
+    "estimated_fields": [
+      "model_identity.release_date",
+      "functional_capabilities.context_window_tokens",
+      "performance.components.general_reasoning",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.tokens_per_second",
+      "performance.processing_speed.time_to_first_token_ms",
+      "safety_and_bias.bias_benchmark_scores.flores200_high_resource_quality_proxy",
+      "safety_and_bias.bias_benchmark_scores.flores200_low_resource_quality_proxy",
+      "environmental_impact.estimated_energy_wh_per_query",
+      "environmental_impact.estimated_co2e_grams_per_1k_queries",
+      "environmental_impact.estimated_water_liters_per_1k_queries",
+      "environmental_impact.green_energy_seal_pct"
+    ]
+  }
+]

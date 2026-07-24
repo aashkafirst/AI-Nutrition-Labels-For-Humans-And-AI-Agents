@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aashkafirst.example/schemas/ai-nutrition-label-v0.3-draft.json",
+  "title": "AI Nutrition Label",
+  "description": "Machine-readable, agent-actionable AI Nutrition Label. A direct, standardized port of the 'AI Nutrition Labels for Everyone' framework (medium.com/@aashkafirst) -- same categories (Model Identity, Functional Capabilities, Performance Value, Safety Value, Bias Value, Environmental Impact, Privacy Seal, Limitations) and the same PV/SV/BV formulae, made queryable by AI agents instead of only readable by humans. Deliberately domain-agnostic: nothing here assumes healthcare, finance, etc. Domain-specific overlays (e.g. child-safety data for an education deployment) can be attached later via the optional `extensions` object without changing this core schema. v0.3-draft adds real AI Energy Score benchmark data/methodology to environmental_impact.",
+  "version": "0.3-draft",
+  "type": "object",
+  "required": [
+    "label_id",
+    "schema_version",
+    "model_identity",
+    "functional_capabilities",
+    "performance",
+    "safety_and_bias",
+    "environmental_impact",
+    "privacy",
+    "limitations",
+    "provenance_metadata",
+    "estimated_fields"
+  ],
+  "properties": {
+    "label_id": { "type": "string", "description": "Unique identifier, e.g. 'gpt-4o-2024-05-13'." },
+    "schema_version": { "type": "string", "const": "0.3-draft" },
+
+    "estimated_fields": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Dot-path list of fields in this label whose values are placeholder/estimated (no public source exists) rather than sourced from an official model/system card. Lets a consuming agent programmatically discount or flag low-confidence fields instead of silently trusting them. e.g. ['safety_and_bias.components.toxic_prompt_refusal_rate_pct', 'environmental_impact.estimated_co2e_grams_per_1k_queries']"
+    },
+
+    "model_identity": {
+      "type": "object",
+      "required": ["name", "manufacturer", "release_date", "modality", "open_weights"],
+      "properties": {
+        "name": { "type": "string" },
+        "manufacturer": { "type": "string" },
+        "release_date": { "type": "string", "format": "date" },
+        "knowledge_cutoff_date": { "type": "string", "format": "date" },
+        "parameter_count": {
+          "type": "string",
+          "description": "e.g. '8B', '54.5B (MoE)', or 'undisclosed' -- many providers do not publish this."
+        },
+        "modality": {
+          "type": "string",
+          "enum": ["text", "image", "audio", "translation", "multimodal", "tabular"]
+        },
+        "open_weights": { "type": "boolean" }
+      }
+    },
+
+    "functional_capabilities": {
+      "type": "object",
+      "required": ["core_capabilities", "modality_support", "context_window_tokens"],
+      "properties": {
+        "core_capabilities": { "type": "array", "items": { "type": "string" } },
+        "modality_support": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["text", "image", "audio", "video"] },
+          "description": "Which input/output modalities the model handles."
+        },
+        "context_window_tokens": {
+          "type": ["integer", "null"],
+          "description": "Memory capacity; null/omit for non-token-based models (e.g. pure image generators)."
+        },
+        "supported_languages": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Languages the model has documented support/evaluation for. Empty/omitted for non-language modalities."
+        }
+      }
+    },
+
+    "performance": {
+      "type": "object",
+      "required": ["components", "performance_value", "formula", "benchmark_sources"],
+      "properties": {
+        "components": {
+          "type": "object",
+          "description": "Each 0-100. For non-LLM modalities these are adapted proxies (see benchmark_sources) rather than literal MMLU/HumanEval scores.",
+          "required": ["general_reasoning", "coding", "math", "common_sense_reasoning"],
+          "properties": {
+            "general_reasoning": { "type": "number", "minimum": 0, "maximum": 100 },
+            "coding": { "type": "number", "minimum": 0, "maximum": 100 },
+            "math": { "type": "number", "minimum": 0, "maximum": 100 },
+            "common_sense_reasoning": { "type": "number", "minimum": 0, "maximum": 100 }
+          }
+        },
+        "performance_value": {
+          "type": "number",
+          "description": "PV = (general_reasoning + coding + math + common_sense_reasoning) / 4. Derived by agent/scoring.py, not hand-entered."
+        },
+        "formula": { "type": "string", "const": "PV = (GR + C + M + CSR) / 4" },
+        "benchmark_sources": {
+          "type": "object",
+          "description": "Which real benchmark (or proxy methodology) backs each component, e.g. { 'general_reasoning': 'MMLU', 'coding': 'HumanEval' }."
+        },
+        "processing_speed": {
+          "type": "object",
+          "properties": {
+            "tokens_per_second": { "type": ["number", "null"] },
+            "time_to_first_token_ms": { "type": ["number", "null"] }
+          }
+        }
+      }
+    },
+
+    "safety_and_bias": {
+      "type": "object",
+      "required": ["safety_components", "safety_value", "safety_formula", "bias_benchmark_scores", "bias_value", "bias_formula"],
+      "properties": {
+        "safety_components": {
+          "type": "object",
+          "required": ["toxic_prompt_refusal_rate_pct", "nontoxic_prompt_compliance_rate_pct", "inappropriate_refusal_rate_pct"],
+          "properties": {
+            "toxic_prompt_refusal_rate_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "nontoxic_prompt_compliance_rate_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+            "inappropriate_refusal_rate_pct": { "type": "number", "minimum": 0, "maximum": 100, "description": "Over-refusal rate on benign prompts." }
+          }
+        },
+        "safety_applicable": {
+          "type": "boolean",
+          "default": true,
+          "description": "False for modalities where refusal-rate-style conversational safety metrics don't apply (e.g. a pure translation model). When false, safety_value is null and safety_components are placeholder zeros, not real measurements."
+        },
+        "safety_value": {
+          "type": ["number", "null"],
+          "description": "SV = (Rtoxic + (100-Rnontoxic) + (100-IR)) / 3. Derived by agent/scoring.py. Null when safety_applicable is false."
+        },
+        "safety_formula": { "type": "string", "const": "SV = (Rtoxic + (100 - Rnontoxic) + (100 - IR)) / 3" },
+        "bias_benchmark_scores": {
+          "type": "object",
+          "description": "0-1 scale, higher = less biased, per cultural/demographic context, e.g. { 'BBQ_english': 0.81, 'BBQ_korean': 0.62, 'BBQ_indian': 0.58 }. Empty object if no such evaluation exists for this model -- this is common; the source article notes evaluations 'don't exist' for many models across most benchmark contexts.",
+          "additionalProperties": { "type": "number", "minimum": 0, "maximum": 1 }
+        },
+        "bias_value": {
+          "type": ["number", "null"],
+          "description": "BV = weighted average of bias_benchmark_scores. Null if bias_benchmark_scores is empty."
+        },
+        "bias_formula": { "type": "string", "const": "BV = weighted average of bias benchmark values (0-1 scale)" },
+        "red_team_summary": { "type": "string" }
+      }
+    },
+
+    "environmental_impact": {
+      "type": "object",
+      "required": ["carbon_footprint_grade", "energy_rating_stars", "green_energy_seal_pct", "water_footprint_level", "methodology_note", "ai_energy_score"],
+      "properties": {
+        "carbon_footprint_grade": {
+          "type": "string",
+          "enum": ["A+", "A", "B", "C", "D"],
+          "description": "A+ = minimal footprint, D = very high. Derived from estimated_co2e_grams_per_1k_queries via agent/scoring.py threshold table, itself calibrated against real published reference points (see agent/scoring.py docstring)."
+        },
+        "energy_rating_stars": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "5 = extremely efficient, 1 = high energy consumption. See ai_energy_score below for whether this figure is grounded in a real measurement."
+        },
+        "green_energy_seal_pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "% of compute run on renewable energy, per provider's (or its primary cloud infrastructure partner's) published sustainability commitment where available."
+        },
+        "water_footprint_level": {
+          "type": "string",
+          "enum": ["Water Saver", "Low", "Moderate", "High", "Very High"]
+        },
+        "estimated_co2e_grams_per_1k_queries": { "type": "number" },
+        "estimated_water_liters_per_1k_queries": { "type": "number" },
+        "estimated_energy_wh_per_query": { "type": "number" },
+        "methodology_note": {
+          "type": "string",
+          "description": "Explains what's real (e.g. provider's public sustainability commitments, or a directly-published per-query energy/water figure) vs. estimated (derived via a documented conversion or analogy -- see agent/scoring.py)."
+        },
+        "ai_energy_score": {
+          "type": "object",
+          "description": "Ties this label's energy figures to the real AI Energy Score benchmark (Hugging Face / Salesforce / Carnegie Mellon; https://huggingface.co/spaces/AIEnergyScore/Leaderboard), which measures GPU energy in Wh per 1,000 queries across 10 tasks via standardized hardware, with a 1-5 star rating per task (bottom/top 20% of measured GPU energy for that task).",
+          "required": ["on_official_leaderboard", "closest_task_category", "benchmark_reference", "disclosure"],
+          "properties": {
+            "on_official_leaderboard": {
+              "type": "boolean",
+              "description": "True only if this exact model/version is directly measured on the official leaderboard. False for every label in this registry -- see disclosure."
+            },
+            "closest_task_category": {
+              "type": "string",
+              "description": "Which of the benchmark's 10 official task categories is the closest analogue for this model (e.g. 'text_generation', 'image_generation'), or 'not_covered' if none apply (e.g. machine translation isn't one of the 10 tasks)."
+            },
+            "model_class": {
+              "type": ["string", "null"],
+              "enum": ["A", "B", "C", null],
+              "description": "Only meaningful for closest_task_category = 'text_generation'. Class A = single consumer GPU (<=20B params), B = single cloud GPU (<=66B params), C = multiple cloud GPUs (>66B params)."
+            },
+            "comparable_real_models": {
+              "type": "array",
+              "description": "Real rows pulled directly from the official leaderboard's published data, included as reference points since this model itself isn't measured there.",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": { "type": "string" },
+                  "gpu_energy_wh_per_query": { "type": "number" },
+                  "stars": { "type": "integer" }
+                }
+              }
+            },
+            "benchmark_reference": { "type": "string", "format": "uri" },
+            "benchmark_version": { "type": "string" },
+            "disclosure": {
+              "type": "string",
+              "description": "Plain-language statement of what is and isn't real here -- e.g. whether the underlying energy_wh figure is a provider-published number (real) or an estimate, and that the star rating is our own extrapolation using the benchmark's methodology, not an official measurement."
+            }
+          }
+        }
+      }
+    },
+
+    "privacy": {
+      "type": "object",
+      "required": ["privacy_seal", "data_used_for_training", "data_retention_policy"],
+      "properties": {
+        "privacy_seal": {
+          "type": "string",
+          "enum": ["Gold", "Silver", "Bronze", "None"],
+          "description": "Gold = your data isn't used for training (or model is self-hostable with no forced telemetry)."
+        },
+        "data_used_for_training": { "type": "boolean" },
+        "data_retention_policy": { "type": "string" },
+        "regulatory_certifications": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+
+    "limitations": {
+      "type": "object",
+      "required": ["known_limitations", "not_recommended_for"],
+      "properties": {
+        "known_limitations": { "type": "array", "items": { "type": "string" } },
+        "not_recommended_for": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Use cases the provider explicitly discourages without qualified human review, e.g. 'medical diagnosis', 'legal advice', 'financial advice'."
+        }
+      }
+    },
+
+    "provenance_metadata": {
+      "type": "object",
+      "required": ["issued_by", "issued_date", "source_documents"],
+      "properties": {
+        "issued_by": { "type": "string" },
+        "issued_date": { "type": "string", "format": "date" },
+        "review_due_date": { "type": "string", "format": "date" },
+        "source_documents": { "type": "array", "items": { "type": "string", "format": "uri" } }
+      }
+    },
+
+    "extensions": {
+      "type": "object",
+      "description": "Deliberately unspecified in v0.2-draft. Reserved for future domain-specific overlays (e.g. a healthcare consumer might attach clinical-safety-threshold or population-representativeness data here) without requiring changes to the core standardized schema above. Not required, and empty/omitted by default.",
+      "additionalProperties": true
+    }
+  }
+}

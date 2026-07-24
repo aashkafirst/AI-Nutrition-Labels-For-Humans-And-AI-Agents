@@ -1,0 +1,19 @@
+# Python virtual environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Generated SQLite registry (rebuild with registry/init_db.py)
+registry/registry.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Editor / OS cruft
+.DS_Store
+.vscode/
+.idea/
+
+# Claude Code local state
+.claude/
