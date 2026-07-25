@@ -7,26 +7,6 @@ actual public model/system cards (plus real third-party energy/child-safety
 benchmarks), a REST API, and two domain agents that each use the registry to
 make an auditable, use-case-appropriate decision.
 
-## What's new in this round
-
-- **Real energy benchmark integration.** Environmental figures are now tied
-  to the real [AI Energy Score](https://huggingface.co/spaces/AIEnergyScore/Leaderboard)
-  (Hugging Face / Salesforce / Carnegie Mellon) benchmark and methodology,
-  plus other real published data: Google's own Gemini energy/water/CO2e
-  report, OpenAI's stated ChatGPT energy figure, and the Luccioni et al.
-  "Power Hungry Processing" image-generation energy study. See
-  `environmental_impact.ai_energy_score` on every label.
-- **A second use case with real data**: a teacher in Nairobi deciding which
-  conversational AI is safe for her students, using real
-  [KORA](https://korabench.ai/) child-safety benchmark data, attached under
-  each label's `extensions.child_safety` -- and a **filtered snapshot view**
-  (`agent/teacher_snapshot.py`) that shows her only what she needs, not the
-  full label.
-- Environmental grade thresholds were recalibrated against these real data
-  points (see `agent/scoring.py`) -- the first draft's thresholds were
-  calibrated on illustrative placeholder numbers that turned out to be far
-  smaller than real published figures.
-
 ## Project layout
 
 ```
@@ -79,6 +59,24 @@ Every real vs. estimated distinction is also encoded machine-readably in each
 label's `estimated_fields` array and in `environmental_impact.ai_energy_score.disclosure` /
 `extensions.child_safety.score_basis` -- check the notebook's Section 2 to see
 it printed directly from the data.
+
+- **Real energy benchmark integration.** Environmental figures are tied
+  to the real [AI Energy Score](https://huggingface.co/spaces/AIEnergyScore/Leaderboard)
+  (Hugging Face / Salesforce / Carnegie Mellon) benchmark and methodology,
+  plus other real published data: Google's own Gemini energy/water/CO2e
+  report, OpenAI's stated ChatGPT energy figure, and the Luccioni et al.
+  "Power Hungry Processing" image-generation energy study. See
+  `environmental_impact.ai_energy_score` on every label.
+- **KORA Child Safety benchmark integration.**: a teacher in Nairobi deciding which
+  conversational AI is safe for her students, using real
+  [KORA](https://korabench.ai/) child-safety benchmark data, attached under
+  each label's `extensions.child_safety` -- and a **filtered snapshot view**
+  (`agent/teacher_snapshot.py`) that shows her only what she needs, not the
+  full label.
+- Environmental grade thresholds were recalibrated against these real data
+  points (see `agent/scoring.py`) -- the first draft's thresholds were
+  calibrated on illustrative placeholder numbers that turned out to be far
+  smaller than real published figures.
 
 ## How to run it (minimum tools: Python 3.10+, pip)
 
