@@ -142,22 +142,60 @@ No fabricated `offline_capable` flag exists anywhere in the schema — the
 agent uses `open_weights`, a real structural property of each model's actual
 license, as the honest proxy for on-device deployability. **DALL-E 3 is
 rejected** for the vision role purely for being closed-weight, and **Stable
-Diffusion 3.5 Large** is selected instead; for the LLM slot, **Gemini 1.5
-Pro's real, Google-published energy efficiency data** tips the composite
-score in its favor over Claude Sonnet 4.6 -- a genuine, data-driven
-tiebreaker rather than an arbitrary one.
+Diffusion 3.5 Large** is selected instead.
+
+### No composite score
+
+Earlier drafts of this agent collapsed every metric into one weighted
+formula (`0.35*PV + 0.25*SV + ...`). That's a real design smell: it hides
+*why* a model won behind an opaque number, and it forces an arbitrary,
+hardcoded judgment call about how much safety should count against
+performance. `agent/procurement_agent.py` now compares eligible candidates
+**one metric at a time**, in a priority order chosen for what this specific
+role actually needs -- and every elimination is printed with the exact
+values that caused it. A metric only eliminates a candidate once the gap
+exceeds a tolerance; within tolerance, candidates are a practical tie and
+comparison moves to the next metric (important since many component scores
+here are `estimated_fields`-flagged placeholders, and a fractional-point gap
+between two guesses isn't a real signal).
+
+**Not every metric gets equal billing, either.** For the LLM slot, the
+single most relevant signal isn't the generic PV/SV pair -- it's
+[HealthBench](https://openai.com/index/healthbench/), OpenAI's benchmark for
+realistic healthcare conversations graded against physician-written rubrics.
+It's a domain-specific overlay (`extensions.healthcare`, the same pattern
+used for KORA in use case 2), not part of the core schema, and it's compared
+first:
+
+```
+Compare on healthbench_score: {'Claude Sonnet 4.6': '38 (estimated)', 'GPT-4o': '32 (real)', 'Gemini 1.5 Pro': '44 (estimated)'}
+  -> eliminates ['Claude Sonnet 4.6', 'GPT-4o']; ['Gemini 1.5 Pro'] remain
+SELECTED  Gemini 1.5 Pro
+```
+
+Worth noting honestly: GPT-4o's 32% is the only *real*, paper-reported
+HealthBench figure here (from OpenAI's own original paper) -- Claude's 38%
+and Gemini's 44% are estimates anchored to a real qualitative finding in
+that same paper ("Gemini markedly better than Claude" among non-OpenAI
+models), not measured scores for these exact versions. The agent's trace
+surfaces that confidence distinction rather than hiding it, which is exactly
+the point of carrying `estimated_fields`-style flags all the way through to
+the decision layer. Generic `safety_value`, environmental grade, and generic
+`performance_value` are still compared afterward as corroborating checks,
+in case HealthBench doesn't distinguish the candidates.
 
 For translation, both NLLB-200 and **Sarvam-Translate** are open-weight and
-support Hindi/Marathi, so this slot comes down to score rather than a hard
-reject -- and **Sarvam-Translate wins** (0.677 vs. NLLB-200's 0.616): it's a
-much smaller, India-built model specifically fine-tuned for the 22 official
-Indian languages, with a real published human-evaluation finding that it
-outperforms much larger general-purpose models on Indian-language
-translation quality, and a real efficiency advantage (4B params vs.
-NLLB-200's 54.5B) that earns it an A+ carbon grade vs. NLLB's C. It's a
-clean illustration of the framework's point: bigger and more general isn't
-automatically the better registry pick once domain fit and efficiency are
-weighed in.
+support Hindi/Marathi, so this slot also comes down to comparison rather
+than a hard reject. The most relevant metric for a translation role is
+translation quality itself (`performance_value`), compared first:
+**Sarvam-Translate wins outright** (PV 42.0 vs. NLLB-200's 39.0, a gap
+beyond tolerance) -- it's a much smaller, India-built model specifically
+fine-tuned for the 22 official Indian languages, with a real published
+human-evaluation finding that it outperforms much larger general-purpose
+models on Indian-language translation quality, and it separately also has a
+real efficiency advantage (4B params vs. NLLB-200's 54.5B) that would have
+made it the pick on environmental grade too, had performance not already
+settled it.
 
 ## Use case 2: a teacher in Nairobi choosing a classroom-safe AI model
 

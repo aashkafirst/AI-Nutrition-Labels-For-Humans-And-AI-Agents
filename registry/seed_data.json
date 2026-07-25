@@ -19,7 +19,8 @@
       "environmental_impact.estimated_co2e_grams_per_1k_queries",
       "environmental_impact.estimated_water_liters_per_1k_queries",
       "environmental_impact.ai_energy_score.model_class",
-      "extensions.child_safety.overall_safety_score_pct"
+      "extensions.child_safety.overall_safety_score_pct",
+      "extensions.healthcare.healthbench_score_pct"
     ],
     "model_identity": {
       "name": "Claude Sonnet 4.6",
@@ -158,6 +159,16 @@
         "overall_safety_score_pct": 72,
         "score_basis": "ESTIMATED -- not the exact reported figure for 'Claude Sonnet 4.6'. KORA's published leaderboard reports Claude Haiku 4.5 leading at 75.6% and states 'four of the top five safest models are from Anthropic's Claude family'; this 72% anchors Sonnet 4.6 within that same real top cluster rather than reading an exact score off the table.",
         "notable_findings": "KORA's own reporting states Claude and OpenAI's newest models lead the benchmark, with the best frontier models scoring 70-76% overall -- meaning even the safest model tested still fails or is merely adequate on roughly a quarter of tested scenarios. KORA explicitly cautions the leaderboard 'should not be interpreted as a guarantee of safety.'",
+        "estimated": true
+      },
+      "healthcare": {
+        "benchmark": "HealthBench -- OpenAI's open-source benchmark for realistic healthcare conversations, graded against physician-written rubrics",
+        "source_url": "https://openai.com/index/healthbench/",
+        "methodology_summary": "1,000+ realistic multi-turn health conversations spanning emergency referrals, context-seeking, communication tailored to patient expertise, global health, and health-data tasks; model responses are graded against rubric criteria written and validated by physicians. Scored 0-1 (shown here as a percentage). OpenAI's original paper (arXiv:2505.08775, May 2025) reports scores from 0.16 (GPT-3.5 Turbo) to 0.60 (o3).",
+        "on_official_leaderboard": false,
+        "healthbench_score_pct": 38,
+        "score_basis": "ESTIMATED -- Claude Sonnet 4.6 was not one of the models scored in OpenAI's original HealthBench paper (it evaluated Claude 3.7 Sonnet, an older version). That paper found Gemini 2.5 Pro and Grok 3 'markedly better' than Claude 3.7 Sonnet among non-OpenAI models, with GPT-4o scoring a real, exact 32%. This 38% places Sonnet 4.6 modestly above GPT-4o's real baseline (reflecting model-generation improvement) while still below the newer Gemini comparison point -- a directional estimate, not a reported figure for this exact version.",
+        "notable_findings": "HealthBench is OpenAI's own benchmark; no frontier lab has published a formal HealthBench score for its own models run by a third party, so every non-OpenAI figure in this registry (including this one) is inherently lower-confidence than GPT-4o's real, paper-reported score.",
         "estimated": true
       }
     }
@@ -317,6 +328,16 @@
         "score_basis": "Derived, not read directly off a table: KORA's own published reporting states safety scores rose 38 percentage points (a +103% relative increase) from GPT-4o to ChatGPT 5.2, which itself scored 75%. Working backward (75 / 2.03 \u2248 37), GPT-4o's own score comes out to approximately 37%. Moderate confidence -- this is KORA's own stated delta, not GPT-4o's row read directly from a leaderboard table.",
         "notable_findings": "KORA's reporting frames GPT-4o as OpenAI's own historical baseline, explicitly used to show how much safer ChatGPT 5.2 has become -- i.e. GPT-4o is presented by KORA itself as the weaker, earlier-generation reference point, not a current top performer.",
         "estimated": true
+      },
+      "healthcare": {
+        "benchmark": "HealthBench -- OpenAI's open-source benchmark for realistic healthcare conversations, graded against physician-written rubrics",
+        "source_url": "https://openai.com/index/healthbench/",
+        "methodology_summary": "1,000+ realistic multi-turn health conversations spanning emergency referrals, context-seeking, communication tailored to patient expertise, global health, and health-data tasks; model responses are graded against rubric criteria written and validated by physicians. Scored 0-1 (shown here as a percentage). OpenAI's original paper (arXiv:2505.08775, May 2025) reports scores from 0.16 (GPT-3.5 Turbo) to 0.60 (o3).",
+        "on_official_leaderboard": true,
+        "healthbench_score_pct": 32,
+        "score_basis": "REAL, exact figure directly from OpenAI's original HealthBench paper: GPT-4o scored 32% overall. This is the only model in this registry with a genuine, paper-reported HealthBench score rather than an estimate.",
+        "notable_findings": "GPT-4o's 32% sits well below o3's 0.60 (the top score OpenAI reports) and above GPT-3.5 Turbo's 0.16 floor -- a mid-pack result among OpenAI's own model family on their own health-specific benchmark.",
+        "estimated": false
       }
     }
   },
@@ -335,7 +356,8 @@
       "safety_and_bias.safety_components.nontoxic_prompt_compliance_rate_pct",
       "safety_and_bias.safety_components.inappropriate_refusal_rate_pct",
       "environmental_impact.ai_energy_score.model_class",
-      "extensions.child_safety.overall_safety_score_pct"
+      "extensions.child_safety.overall_safety_score_pct",
+      "extensions.healthcare.healthbench_score_pct"
     ],
     "model_identity": {
       "name": "Gemini 1.5 Pro",
@@ -479,6 +501,16 @@
         "overall_safety_score_pct": 45,
         "score_basis": "ENTIRELY ESTIMATED / DUMMY -- no KORA-reported figure was found for this specific model version. KORA's public reporting only gives a general, non-model-specific statement that Google's Gemini 'trails Claude by approximately 30 percentage points' and 'performs mid-pack,' likely referring to Google's current-generation Gemini rather than the 1.5 Pro version in this registry (which predates the tested generation). Do not treat this number as sourced.",
         "notable_findings": "None specific to this model version -- see disclosure above.",
+        "estimated": true
+      },
+      "healthcare": {
+        "benchmark": "HealthBench -- OpenAI's open-source benchmark for realistic healthcare conversations, graded against physician-written rubrics",
+        "source_url": "https://openai.com/index/healthbench/",
+        "methodology_summary": "1,000+ realistic multi-turn health conversations spanning emergency referrals, context-seeking, communication tailored to patient expertise, global health, and health-data tasks; model responses are graded against rubric criteria written and validated by physicians. Scored 0-1 (shown here as a percentage). OpenAI's original paper (arXiv:2505.08775, May 2025) reports scores from 0.16 (GPT-3.5 Turbo) to 0.60 (o3).",
+        "on_official_leaderboard": false,
+        "healthbench_score_pct": 44,
+        "score_basis": "ESTIMATED -- Gemini 1.5 Pro itself was not scored in OpenAI's original HealthBench paper (it evaluated the newer Gemini 2.5 Pro). That paper found Gemini 2.5 Pro 'markedly better' than Claude 3.7 Sonnet among non-OpenAI models, with GPT-4o's real score at 32%. This 44% reflects that real qualitative ranking (Gemini's family scoring above both GPT-4o and Claude in that comparison) applied to the older 1.5 Pro version, but is not a reported figure for this exact version -- treat with lower confidence than GPT-4o's real 32%.",
+        "notable_findings": "OpenAI's own paper is the only source of real HealthBench data here; no independent third party has published a HealthBench score specifically for Gemini 1.5 Pro.",
         "estimated": true
       }
     }
