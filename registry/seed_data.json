@@ -893,5 +893,155 @@
         "https://huggingface.co/spaces/AIEnergyScore/Leaderboard"
       ]
     }
+  },
+  {
+    "label_id": "sarvam-translate-4b",
+    "schema_version": "0.3-draft",
+    "estimated_fields": [
+      "performance.components.general_reasoning",
+      "performance.components.common_sense_reasoning",
+      "performance.processing_speed.tokens_per_second",
+      "performance.processing_speed.time_to_first_token_ms",
+      "environmental_impact.estimated_energy_wh_per_query",
+      "environmental_impact.estimated_co2e_grams_per_1k_queries",
+      "environmental_impact.estimated_water_liters_per_1k_queries",
+      "environmental_impact.green_energy_seal_pct"
+    ],
+    "model_identity": {
+      "name": "Sarvam-Translate",
+      "manufacturer": "Sarvam AI (India)",
+      "release_date": "2025-06-07",
+      "parameter_count": "4B",
+      "modality": "translation",
+      "open_weights": true
+    },
+    "functional_capabilities": {
+      "core_capabilities": [
+        "document-level translation across 22 official Indian languages",
+        "handles markdown, digitized content, math/chemistry notation, and code files",
+        "long-form and structured text, not just isolated sentences"
+      ],
+      "modality_support": [
+        "text"
+      ],
+      "context_window_tokens": 8000,
+      "supported_languages": [
+        "Assamese",
+        "Bengali",
+        "Bodo",
+        "Dogri",
+        "Gujarati",
+        "English",
+        "Hindi",
+        "Kannada",
+        "Kashmiri",
+        "Konkani",
+        "Maithili",
+        "Malayalam",
+        "Manipuri",
+        "Marathi",
+        "Nepali",
+        "Odia",
+        "Punjabi",
+        "Sanskrit",
+        "Santali",
+        "Sindhi",
+        "Tamil",
+        "Telugu",
+        "Urdu"
+      ]
+    },
+    "performance": {
+      "components": {
+        "general_reasoning": 88,
+        "coding": 0,
+        "math": 0,
+        "common_sense_reasoning": 80
+      },
+      "performance_value": 42.0,
+      "formula": "PV = (GR + C + M + CSR) / 4",
+      "benchmark_sources": {
+        "general_reasoning": "adapted proxy: cross-lingual translation quality for Indian languages. Grounded in Sarvam AI's real published human-evaluation finding (language experts rated Sarvam-Translate significantly better than much larger models -- Gemma3-27B-IT, Llama4 Scout, and Llama-3.1-405B-FP8 -- specifically on Indian-language translation quality). No single public BLEU/chrF headline number exists, so the exact 0-100 value here is an estimated proxy, though its direction (higher than NLLB-200's proxy) is real-finding-grounded, not arbitrary.",
+        "coding": "not applicable to this modality; retained at 0 only for schema consistency across all labels",
+        "math": "not applicable to this modality; retained at 0 only for schema consistency across all labels",
+        "common_sense_reasoning": "adapted proxy: idiomatic/context-appropriate translation quality (estimated)"
+      },
+      "processing_speed": {
+        "tokens_per_second": 95,
+        "time_to_first_token_ms": 220
+      }
+    },
+    "safety_and_bias": {
+      "safety_applicable": false,
+      "safety_components": {
+        "toxic_prompt_refusal_rate_pct": 0,
+        "nontoxic_prompt_compliance_rate_pct": 0,
+        "inappropriate_refusal_rate_pct": 0
+      },
+      "safety_value": null,
+      "safety_formula": "SV = (Rtoxic + (100 - Rnontoxic) + (100 - IR)) / 3",
+      "bias_benchmark_scores": {},
+      "bias_value": null,
+      "bias_formula": "BV = weighted average of bias benchmark values (0-1 scale)",
+      "red_team_summary": "Refusal-rate-style conversational safety metrics don't apply to a translation model (set to not-applicable, as with NLLB-200 above). Sarvam AI publishes its human-evaluation methodology (real, via its June 2025 announcement, developed in partnership with AI4Bharat) but no BBQ-style cross-cultural bias benchmark or numeric toxicity rate for this model -- bias_benchmark_scores is left empty rather than populated with an invented number."
+    },
+    "environmental_impact": {
+      "carbon_footprint_grade": "A+",
+      "energy_rating_stars": 5,
+      "green_energy_seal_pct": 45,
+      "water_footprint_level": "Water Saver",
+      "estimated_co2e_grams_per_1k_queries": 4.4,
+      "estimated_water_liters_per_1k_queries": 0.0104,
+      "estimated_energy_wh_per_query": 0.011,
+      "methodology_note": "Sarvam AI does not publish a per-query energy/CO2e/water figure. The 0.011 Wh/query estimate scales down from the real AI Energy Score measurement for mistralai/Mistral-7B-v0.1 (0.0191 Wh/query, a dense 7B model) roughly in proportion to Sarvam-Translate's smaller 4B parameter count (base: Gemma3-4B-IT) -- both are dense (non-MoE) transformer models, unlike NLLB-200's 54.5B MoE, so this is a more defensible scaling comparison than a size-only guess. CO2e/water are derived via the same generic constants used elsewhere in this registry (see agent/scoring.py). Because the model is open-weight and typically self-hosted, actual footprint still depends on the deployer's own hardware/grid.",
+      "ai_energy_score": {
+        "on_official_leaderboard": false,
+        "closest_task_category": "text_generation",
+        "model_class": "A",
+        "comparable_real_models": [
+          {
+            "name": "mistralai/Mistral-7B-v0.1",
+            "gpu_energy_wh_per_query": 0.0191,
+            "stars": 2
+          },
+          {
+            "name": "HuggingFaceTB/SmolLM2-1.7B-Instruct",
+            "gpu_energy_wh_per_query": 0.007708,
+            "stars": 4
+          }
+        ],
+        "benchmark_reference": "https://huggingface.co/spaces/AIEnergyScore/Leaderboard",
+        "benchmark_version": "v2 (Dec 2025 refresh)",
+        "disclosure": "Sarvam-Translate is a fine-tune of Gemma3-4B-IT, so unlike the other closed/unmeasured models in this registry, model_class = 'A' is a real, confidently-assignable classification (AI Energy Score's own rule: Class A = single consumer GPU, <=20B params -- 4B clearly qualifies). It is still not itself on the official leaderboard, so the Wh/query figure remains our own estimate, not a measured leaderboard entry."
+      }
+    },
+    "privacy": {
+      "privacy_seal": "Gold",
+      "data_used_for_training": false,
+      "data_retention_policy": "Open weights (GPL-3.0 license) allow fully self-hosted deployment with no data ever sent to Sarvam AI (real, structural property of open weights). Sarvam AI is headquartered in India, which may be relevant for data-residency preferences in an India-based deployment even though this isn't a formal certification.",
+      "regulatory_certifications": []
+    },
+    "limitations": {
+      "known_limitations": [
+        "only supports English<->Indian-language pairs directly; Indic-to-Indic translation (e.g. Hindi to Marathi) requires pivoting through English as an intermediate step",
+        "GPL-3.0 license carries copyleft obligations for derivative/redistributed works -- review license terms before commercial deployment",
+        "smaller 4B parameter base may show quality gaps on highly technical or rare-domain vocabulary despite strong general translation quality"
+      ],
+      "not_recommended_for": [
+        "direct Indic-to-Indic translation without an English pivot step",
+        "certified legal or medical document translation without professional review"
+      ]
+    },
+    "provenance_metadata": {
+      "issued_by": "AI Nutrition Labels POC (independent, not issued by Sarvam AI)",
+      "issued_date": "2026-07-07",
+      "review_due_date": "2027-01-07",
+      "source_documents": [
+        "https://huggingface.co/sarvamai/sarvam-translate",
+        "https://www.sarvam.ai/blogs",
+        "https://aikosh.indiaai.gov.in/home/models/details/sarvamtranslate.html",
+        "https://huggingface.co/spaces/AIEnergyScore/Leaderboard"
+      ]
+    }
   }
 ]

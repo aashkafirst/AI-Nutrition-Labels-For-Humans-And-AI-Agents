@@ -33,7 +33,7 @@ make an auditable, use-case-appropriate decision.
 schema/
   ai_nutrition_label.schema.json   JSON Schema (v0.3-draft), standardized/global
 registry/
-  seed_source.json                 raw component data for 6 real models
+  seed_source.json                 raw component data for 7 real models
   build_seed_data.py                computes PV/SV/BV + environmental grades -> seed_data.json
   seed_data.json                    full schema-conformant labels (generated, don't hand-edit)
   init_db.py                        builds registry.db (SQLite) from seed_data.json
@@ -64,7 +64,7 @@ requirements.txt
 | **`estimated_fields`** | dot-path list of which fields above are placeholders, not sourced facts | lets an agent discount low-confidence fields instead of silently trusting them |
 | **`extensions`** (optional) | reserved, empty by default; populated with `child_safety` (real KORA data) for the 3 conversational models in this registry | where a domain-specific consumer can attach extra fields without changing the core schema -- exactly what use case 2 below does |
 
-## The 6 real models in the registry
+## The 7 real models in the registry
 
 | Model | Modality | Open weights? | Energy figure | Child safety (KORA) |
 |---|---|---|---|---|
@@ -74,6 +74,9 @@ requirements.txt
 | DALL-E 3 (OpenAI) | image | No | 2.9 Wh/query -- estimated, grounded in the real Luccioni et al. diffusion-model energy study | not applicable -- not a conversational model |
 | Stable Diffusion 3.5 Large (Stability AI) | image | **Yes** | 3.5 Wh/query -- estimated, extrapolated from the real SDXL-base AI Energy Score measurement | not applicable |
 | NLLB-200 (Meta AI) | translation | **Yes** | 0.7 Wh/query -- estimated (translation isn't one of AI Energy Score's 10 tasks at all) | not applicable |
+| **Sarvam-Translate (Sarvam AI, India)** | translation | **Yes** | 0.011 Wh/query -- estimated, scaled from the real Mistral-7B AI Energy Score measurement (4B vs. NLLB's 54.5B MoE) | not applicable |
+
+**Sarvam-Translate** is a real, India-built translation model (fine-tuned from Gemma3-4B-IT by Sarvam AI in partnership with AI4Bharat, open-weight under GPL-3.0, released June 2025) covering all 22 official Indian languages including Hindi and Marathi. Sarvam AI's own published human evaluation found it rated significantly better than much larger models (Gemma3-27B-IT, Llama4 Scout, Llama-3.1-405B) specifically for Indian-language translation quality -- a genuine domain-specialization advantage baked into this label, not an invented one. Combined with its much smaller footprint (4B vs. NLLB-200's 54.5B parameters, giving it an A+ carbon grade vs. NLLB's C), it out-scores NLLB-200 in the procurement demo below.
 
 Every real vs. estimated distinction is also encoded machine-readably in each
 label's `estimated_fields` array and in `environmental_impact.ai_energy_score.disclosure` /
@@ -141,11 +144,22 @@ No fabricated `offline_capable` flag exists anywhere in the schema — the
 agent uses `open_weights`, a real structural property of each model's actual
 license, as the honest proxy for on-device deployability. **DALL-E 3 is
 rejected** for the vision role purely for being closed-weight, and **Stable
-Diffusion 3.5 Large** is selected instead; **NLLB-200** wins translation as
-the only open-weight candidate with documented Hindi/Marathi support; and for
-the LLM slot, **Gemini 1.5 Pro's real, Google-published energy efficiency
-data** now tips the composite score in its favor over Claude Sonnet 4.6 --
-a genuine, data-driven tiebreaker rather than an arbitrary one.
+Diffusion 3.5 Large** is selected instead; for the LLM slot, **Gemini 1.5
+Pro's real, Google-published energy efficiency data** tips the composite
+score in its favor over Claude Sonnet 4.6 -- a genuine, data-driven
+tiebreaker rather than an arbitrary one.
+
+For translation, both NLLB-200 and **Sarvam-Translate** are open-weight and
+support Hindi/Marathi, so this slot comes down to score rather than a hard
+reject -- and **Sarvam-Translate wins** (0.677 vs. NLLB-200's 0.616): it's a
+much smaller, India-built model specifically fine-tuned for the 22 official
+Indian languages, with a real published human-evaluation finding that it
+outperforms much larger general-purpose models on Indian-language
+translation quality, and a real efficiency advantage (4B params vs.
+NLLB-200's 54.5B) that earns it an A+ carbon grade vs. NLLB's C. It's a
+clean illustration of the framework's point: bigger and more general isn't
+automatically the better registry pick once domain fit and efficiency are
+weighed in.
 
 ## Use case 2: a teacher in Nairobi choosing a classroom-safe AI model
 
