@@ -35,7 +35,7 @@ requirements.txt
 | **Model Identity** | name, manufacturer, release date, knowledge cutoff, parameter count, open-weights | from model/system card, or "undisclosed" if the provider doesn't publish it |
 | **Functional Capabilities** | core capabilities, modality support, context window, supported languages | from model/system card |
 | **Performance Value (PV)** | general reasoning, coding, math, common-sense reasoning (0-100 each) | `PV = (GR + C + M + CSR) / 4` |
-| **Safety Value (SV)** | toxic-prompt refusal rate, non-toxic compliance rate, inappropriate (over-)refusal rate | `SV = (Rtoxic + (100-Rnontoxic) + (100-IR)) / 3` — the source article's formula lists 3 terms but divides by 4; we divide by 3 and note this explicitly as a correction |
+| **Safety Value (SV)** | toxic-prompt refusal rate, non-toxic compliance rate, inappropriate (over-)refusal rate | `SV = (Rtoxic + (100-Rnontoxic) + (100-IR)) / 3` |
 | **Bias Value (BV)** | per-context bias benchmark scores (e.g. BBQ-style, 0-1 scale) | `BV = weighted average of bias benchmark values`; `null` when no such evaluation exists for a model (true for most models today) |
 | **Environmental Impact** | Carbon Footprint grade (A+ to D), Energy Rating (1-5 stars), Green Energy Seal (%), Water Footprint level, plus `ai_energy_score` | grades derived from per-1k-query CO2e/water/energy figures (real where a provider published one, otherwise estimated -- see table below); thresholds calibrated against real reference points in `agent/scoring.py`; `ai_energy_score` explicitly ties each figure to the real AI Energy Score benchmark and discloses whether it's on the leaderboard |
 | **Privacy** | Privacy Seal (Gold/Silver/Bronze/None), data used for training, retention policy, certifications | from provider's stated policy |
@@ -143,21 +143,6 @@ agent uses `open_weights`, a real structural property of each model's actual
 license, as the honest proxy for on-device deployability. **DALL-E 3 is
 rejected** for the vision role purely for being closed-weight, and **Stable
 Diffusion 3.5 Large** is selected instead.
-
-### No composite score
-
-Earlier drafts of this agent collapsed every metric into one weighted
-formula (`0.35*PV + 0.25*SV + ...`). That's a real design smell: it hides
-*why* a model won behind an opaque number, and it forces an arbitrary,
-hardcoded judgment call about how much safety should count against
-performance. `agent/procurement_agent.py` now compares eligible candidates
-**one metric at a time**, in a priority order chosen for what this specific
-role actually needs -- and every elimination is printed with the exact
-values that caused it. A metric only eliminates a candidate once the gap
-exceeds a tolerance; within tolerance, candidates are a practical tie and
-comparison moves to the next metric (important since many component scores
-here are `estimated_fields`-flagged placeholders, and a fractional-point gap
-between two guesses isn't a real signal).
 
 **Not every metric gets equal billing, either.** For the LLM slot, the
 single most relevant signal isn't the generic PV/SV pair -- it's
